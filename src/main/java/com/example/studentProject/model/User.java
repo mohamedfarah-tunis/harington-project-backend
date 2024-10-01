@@ -12,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name="_user")
 public class User implements UserDetails {
 
@@ -22,8 +23,6 @@ public class User implements UserDetails {
     private String firstName;
 
     private String lastName;
-
-    private String name;
 
     @Column(unique = true)
     private String email;
