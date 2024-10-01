@@ -1,6 +1,7 @@
 package com.example.studentProject.controller;
 
 import com.example.studentProject.dto.JwtAuthenticationResponse;
+import com.example.studentProject.dto.RefreshTokenRequest;
 import com.example.studentProject.dto.SignInRequest;
 import com.example.studentProject.dto.SignUpRequest;
 import com.example.studentProject.manager.AuthenticationService;
@@ -27,5 +28,10 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignInRequest signInRequest) {
         return ResponseEntity.ok(authenticationService.signIn(signInRequest));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
     }
 }
