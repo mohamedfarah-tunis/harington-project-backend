@@ -1,5 +1,6 @@
 package com.example.studentProject.manager;
 
+import com.example.studentProject.dto.TeacherDto;
 import com.example.studentProject.model.Teacher;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface TeacherService {
 
     List<Teacher> getAllTeachers();
 
-    Optional<Teacher> getTeacherById(Integer id);
+    TeacherDto getTeacherById(Integer id);
 
     void deleteTeacherById(Integer id);
 

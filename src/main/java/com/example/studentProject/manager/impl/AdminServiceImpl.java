@@ -1,6 +1,8 @@
 package com.example.studentProject.manager.impl;
 
 
+import com.example.studentProject.dto.StudentDto;
+import com.example.studentProject.dto.TeacherDto;
 import com.example.studentProject.manager.AdminService;
 import com.example.studentProject.model.ClassRoom;
 import com.example.studentProject.model.Role;
@@ -10,9 +12,9 @@ import com.example.studentProject.repository.ClassroomRepository;
 import com.example.studentProject.repository.StudentRepository;
 import com.example.studentProject.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +26,8 @@ public class AdminServiceImpl implements AdminService {
 
     private final ClassroomRepository classRoomRepository;
 
+    private final ModelMapper modelMapper;
+
     public Teacher registerTeacher(Teacher teacher) {
         teacher.setRole(Role.TEACHER);
         return teacherRepository.save(teacher);
@@ -34,30 +38,28 @@ public class AdminServiceImpl implements AdminService {
         return studentRepository.save(student);
     }
 
-    public Teacher assignTeacherToClass(Integer teacherId, Integer classRoomId) {
-        Optional<Teacher> teacherOpt = teacherRepository.findById(teacherId);
-        Optional<ClassRoom> classRoomOpt = classRoomRepository.findById(classRoomId);
+    public TeacherDto assignTeacherToClass(Integer teacherId, Integer classRoomId) {
+        Teacher teacher = teacherRepository.findById(teacherId)
+                .orElseThrow(() -> new IllegalStateException("No teacher found"));
 
-        if (teacherOpt.isPresent() && classRoomOpt.isPresent()) {
-            Teacher teacher = teacherOpt.get();
-            ClassRoom classRoom = classRoomOpt.get();
-            teacher.setClassRoom(classRoom);
-            return teacherRepository.save(teacher);
-        }
-        return null;
+        ClassRoom classRoom = classRoomRepository.findById(classRoomId)
+                .orElseThrow(() -> new IllegalStateException("No classroom found"));
+
+        teacher.setClassRoom(classRoom);
+        Teacher updatedTeacher = teacherRepository.save(teacher);
+
+        return modelMapper.map(updatedTeacher, TeacherDto.class);
     }
 
-    public Student assignStudentToClass(Integer studentId, Integer classRoomId) {
-        Optional<Student> studentOpt = studentRepository.findById(studentId);
-        Optional<ClassRoom> classRoomOpt = classRoomRepository.findById(classRoomId);
+    public StudentDto assignStudentToClass(Integer studentId, Integer classRoomId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("no student found with this id" + studentId));
+        ClassRoom classRoom = classRoomRepository.findById(classRoomId)
+                .orElseThrow(() -> new IllegalStateException("no classRoom found with this id" + classRoomId));
 
-        if (studentOpt.isPresent() && classRoomOpt.isPresent()) {
-            Student student = studentOpt.get();
-            ClassRoom classRoom = classRoomOpt.get();
-            student.setClassRoom(classRoom);
-            return studentRepository.save(student);
-        }
-        return null;
+        student.setClassRoom(classRoom);
+        Student updatedStudent = studentRepository.save(student);
+        return modelMapper.map(updatedStudent, StudentDto.class);
     }
 
 }

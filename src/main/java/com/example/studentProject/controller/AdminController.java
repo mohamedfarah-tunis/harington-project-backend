@@ -1,6 +1,7 @@
 package com.example.studentProject.controller;
 
-
+import com.example.studentProject.dto.StudentDto;
+import com.example.studentProject.dto.TeacherDto;
 import com.example.studentProject.manager.AdminService;
 import com.example.studentProject.model.Student;
 import com.example.studentProject.model.Teacher;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,8 +31,8 @@ public class AdminController {
     }
 
     @PutMapping("/v1/admin/assign/teacher/{teacherId}/class/{classRoomId}")
-    public ResponseEntity<Teacher> assignTeacherToClass(@PathVariable Integer teacherId, @PathVariable Integer classRoomId) {
-        Teacher updatedTeacher = adminService.assignTeacherToClass(teacherId, classRoomId);
+    public ResponseEntity<TeacherDto> assignTeacherToClass(@PathVariable Integer teacherId, @PathVariable Integer classRoomId) {
+        TeacherDto updatedTeacher = adminService.assignTeacherToClass(teacherId, classRoomId);
         if (updatedTeacher != null) {
             return ResponseEntity.ok(updatedTeacher);
         }
@@ -38,8 +40,8 @@ public class AdminController {
     }
 
     @PutMapping("/v1/admin/assign/student/{studentId}/class/{classRoomId}")
-    public ResponseEntity<Student> assignStudentToClass(@PathVariable Integer studentId, @PathVariable Integer classRoomId) {
-        Student updatedStudent = adminService.assignStudentToClass(studentId, classRoomId);
+    public ResponseEntity<StudentDto> assignStudentToClass(@PathVariable Integer studentId, @PathVariable Integer classRoomId) {
+        StudentDto updatedStudent = adminService.assignStudentToClass(studentId, classRoomId);
         if (updatedStudent != null) {
             return ResponseEntity.ok(updatedStudent);
         }

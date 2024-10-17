@@ -1,9 +1,9 @@
 package com.example.studentProject.manager;
 
+import com.example.studentProject.dto.StudentDto;
 import com.example.studentProject.model.Student;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentService {
 
@@ -11,7 +11,7 @@ public interface StudentService {
 
     List<Student> getAllStudents() ;
 
-    Optional<Student> getStudentById(Integer id);
+    StudentDto getStudentById(Integer id);
 
     void deleteStudentById(Integer id);
 

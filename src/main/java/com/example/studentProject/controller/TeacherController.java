@@ -1,17 +1,16 @@
 package com.example.studentProject.controller;
 
-
+import com.example.studentProject.dto.TeacherDto;
 import com.example.studentProject.manager.TeacherService;
 import com.example.studentProject.model.Teacher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,10 +32,9 @@ public class TeacherController {
     }
 
     @GetMapping("/v1/teachers/{id}")
-    public ResponseEntity<Teacher> getTeacherById(@PathVariable Integer id) {
-        Optional<Teacher> teacher = teacherService.getTeacherById(id);
-        return teacher.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<TeacherDto> getTeacherById(@PathVariable Integer id) {
+        TeacherDto teacher = teacherService.getTeacherById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(teacher);
     }
 
     @DeleteMapping("/v1/teachers/{id}")

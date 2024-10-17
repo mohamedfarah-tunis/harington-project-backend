@@ -1,15 +1,19 @@
-  spring:
-    datasource:
-      url: jdbc:postgresql://localhost:5432/student_project
-      username: postgres
-      password: postgres
-      driver-class-name: org.postgresql.Driver
-    jpa:
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/student_project
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
       hibernate:
-        ddl-auto: update
-      show-sql: false
-      properties:
-        hibernate:
-          format_sql: true
-      database: postgresql
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+

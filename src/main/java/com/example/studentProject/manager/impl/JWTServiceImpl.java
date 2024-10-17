@@ -51,8 +51,6 @@ public class JWTServiceImpl implements JWTService {
                 .getBody();
     }
 
-
-
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode("aNewBase64EncodedKeyThatIsAtLeast32BytesLong==");
         return Keys.hmacShaKeyFor(keyBytes);
