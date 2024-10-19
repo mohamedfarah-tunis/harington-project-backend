@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="_user")
 public class User implements UserDetails {
 

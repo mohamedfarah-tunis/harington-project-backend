@@ -1,9 +1,11 @@
 package com.example.studentProject.manager.impl;
 
 import com.example.studentProject.dto.StudentDto;
+import com.example.studentProject.dto.view.IUserView;
 import com.example.studentProject.manager.StudentService;
 import com.example.studentProject.model.Student;
 import com.example.studentProject.repository.StudentRepository;
+import com.example.studentProject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,14 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
 
+    private final UserRepository userRepository;
+
     public Student saveStudent(Student student) {
         return studentRepository.save(student);
     }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<IUserView> getAllStudents() {
+        return userRepository.findAllUsersByRole("STUDENT");
     }
 
     public StudentDto getStudentById(Integer id) {

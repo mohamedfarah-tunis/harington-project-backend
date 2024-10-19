@@ -9,8 +9,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class Student extends User {
 
-    private Integer id;
-
     @ManyToOne
     @JoinColumn(name = "class_id")
     private ClassRoom classRoom;
