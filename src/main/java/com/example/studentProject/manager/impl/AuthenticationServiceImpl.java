@@ -6,8 +6,11 @@ import com.example.studentProject.dto.SignInRequest;
 import com.example.studentProject.dto.SignUpRequest;
 import com.example.studentProject.manager.AuthenticationService;
 import com.example.studentProject.manager.JWTService;
-import com.example.studentProject.model.Role;
-import com.example.studentProject.model.User;
+import com.example.studentProject.manager.StudentService;
+import com.example.studentProject.model.*;
+import com.example.studentProject.repository.AdminRepository;
+import com.example.studentProject.repository.StudentRepository;
+import com.example.studentProject.repository.TeacherRepository;
 import com.example.studentProject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,17 +33,45 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final JWTService jwtService;
 
+
     public User signUp(SignUpRequest signUpRequest) {
-        User user = new User();
+
+        if (userRepository.findByEmail(signUpRequest.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already in use");
+        }
+
+        User user = null;
+
+        switch (Role.valueOf(signUpRequest.getRole().toUpperCase())) {
+            case TEACHER:
+                Teacher teacher = new Teacher();
+                teacher.setSubject(signUpRequest.getSubject());
+                user = teacher;
+                break;
+
+            case STUDENT:
+                Student student = new Student();
+                user = student;
+                break;
+
+            case ADMIN:
+                Admin admin = new Admin();
+                user = admin;
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unknown role: " + signUpRequest.getRole());
+        }
 
         user.setEmail(signUpRequest.getEmail());
         user.setFirstName(signUpRequest.getFirstName());
         user.setLastName(signUpRequest.getLastName());
-        user.setRole(Role.valueOf(signUpRequest.getRole().toUpperCase()));
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setRole(Role.valueOf(signUpRequest.getRole().toUpperCase()));
 
         return userRepository.save(user);
     }
+
 
     public JwtAuthenticationResponse signIn(SignInRequest signInRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(),
