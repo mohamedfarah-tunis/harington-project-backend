@@ -8,6 +8,7 @@ import com.example.studentProject.model.Teacher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,18 +19,21 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN')")
     @PostMapping("/v1/admin/register/teacher")
     public ResponseEntity<Teacher> registerTeacher(@RequestBody Teacher teacher) {
         Teacher savedTeacher = adminService.registerTeacher(teacher);
         return ResponseEntity.ok(savedTeacher);
     }
 
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN')")
     @PostMapping("/v1/admin/register/student")
     public ResponseEntity<Student> registerStudent(@RequestBody Student student) {
         Student savedStudent = adminService.registerStudent(student);
         return ResponseEntity.ok(savedStudent);
     }
 
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN')")
     @PutMapping("/v1/admin/assign/teacher/{teacherId}/class/{classRoomId}")
     public ResponseEntity<TeacherDto> assignTeacherToClass(@PathVariable Integer teacherId, @PathVariable Integer classRoomId) {
         TeacherDto updatedTeacher = adminService.assignTeacherToClass(teacherId, classRoomId);
@@ -39,6 +43,7 @@ public class AdminController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN')")
     @PutMapping("/v1/admin/assign/student/{studentId}/class/{classRoomId}")
     public ResponseEntity<StudentDto> assignStudentToClass(@PathVariable Integer studentId, @PathVariable Integer classRoomId) {
         StudentDto updatedStudent = adminService.assignStudentToClass(studentId, classRoomId);

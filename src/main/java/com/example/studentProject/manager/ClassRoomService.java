@@ -1,5 +1,6 @@
 package com.example.studentProject.manager;
 
+import com.example.studentProject.dto.ClassroomDto;
 import com.example.studentProject.model.ClassRoom;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface ClassRoomService {
 
     List<ClassRoom> getAllClassRooms();
 
-    Optional<ClassRoom> getClassRoomById(Integer id);
+    ClassroomDto getClassRoomById(Integer id);
 
     void deleteClassRoomById(Integer id);
 
