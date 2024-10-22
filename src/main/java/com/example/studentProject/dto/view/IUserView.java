@@ -6,4 +6,5 @@ public interface IUserView {
     String getLastName();
     String getEmail();
     String getRole();
+    Integer getClassId();
 }

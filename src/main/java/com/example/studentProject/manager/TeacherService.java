@@ -10,7 +10,7 @@ public interface TeacherService {
 
     Teacher saveTeacher(Teacher teacher);
 
-    List<IUserView> getAllTeachers();
+    List<TeacherDto> getAllTeachers();
 
     TeacherDto getTeacherById(Integer id);
 

@@ -24,4 +24,6 @@ public class TeacherDto {
 
     private Integer classId;
 
+    private String subject;
+
 }

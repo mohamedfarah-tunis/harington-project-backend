@@ -22,27 +22,27 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN') or @authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
     @PostMapping("/v1/students")
     public ResponseEntity<Student> createOrUpdateTeacher(@RequestBody Student student) {
         Student savedStudent = studentService.saveStudent(student);
         return ResponseEntity.ok(savedStudent);
     }
 
-    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN') or @authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
     @GetMapping("/v1/students")
-    public List<IUserView> getAllStudent() {
+    public List<StudentDto> getAllStudent() {
         return studentService.getAllStudents();
     }
 
-    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN') or @authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
     @GetMapping("/v1/students/{id}")
     public ResponseEntity<StudentDto> getTeacherById(@PathVariable Integer id) {
         StudentDto student = studentService.getStudentById(id);
         return ResponseEntity.status(HttpStatus.OK).body(student);
     }
 
-    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN') or @authenticationServiceImpl.hasRole(authentication, 'STUDENT')")
     @DeleteMapping("/v1/students/{id}")
     public ResponseEntity<Void> deleteStudentById(@PathVariable Integer id) {
         studentService.deleteStudentById(id);

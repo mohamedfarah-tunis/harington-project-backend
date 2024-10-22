@@ -29,9 +29,9 @@ public class TeacherController {
         return ResponseEntity.ok(savedTeacher);
     }
 
-    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'TEACHER')")
+    @PreAuthorize("@authenticationServiceImpl.hasRole(authentication, 'ADMIN') or @authenticationServiceImpl.hasRole(authentication, 'TEACHER')")
     @GetMapping("/v1/teachers")
-    public List<IUserView> getAllTeachers() {
+    public List<TeacherDto> getAllTeachers() {
         return teacherService.getAllTeachers();
     }
 

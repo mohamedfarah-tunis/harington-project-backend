@@ -49,8 +49,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/api/v1/teachers/**").hasAnyAuthority(Role.TEACHER.name())
-                        .requestMatchers("/api/v1/students/**").hasAnyAuthority(Role.STUDENT.name())
+                        .requestMatchers("/api/v1/teachers/**").hasAnyAuthority(Role.TEACHER.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/v1/students/**").hasAnyAuthority(Role.STUDENT.name(), Role.ADMIN.name())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

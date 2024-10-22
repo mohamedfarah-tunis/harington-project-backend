@@ -10,7 +10,7 @@ public interface StudentService {
 
     Student saveStudent(Student student);
 
-    List<IUserView> getAllStudents() ;
+    List<StudentDto> getAllStudents() ;
 
     StudentDto getStudentById(Integer id);
 
