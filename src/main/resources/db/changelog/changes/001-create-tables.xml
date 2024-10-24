@@ -1,0 +1,66 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="mohamed">
+        <createTable tableName="classroom">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="mohamed">
+        <createTable tableName="_user">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="firstName" type="VARCHAR(255)"/>
+            <column name="lastName" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="mohamed">
+        <createTable tableName="teacher">
+            <column name="id" type="INT" >
+                <constraints primaryKey="true" foreignKeyName="fk_user_admin" referencedTableName="_user" referencedColumnNames="id"/>
+            </column>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="class_id" type="INT"/>
+            <addForeignKeyConstraint baseTableName="teacher"
+                                     baseColumnNames="class_id"
+                                     referencedTableName="classroom"
+                                     referencedColumnNames="id"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="mohamed">
+        <createTable tableName="student">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" foreignKeyName="fk_user_admin" referencedTableName="_user" referencedColumnNames="id"/>
+            </column>
+            <column name="class_id" type="INT"/>
+            <addForeignKeyConstraint baseTableName="student"
+                                     baseColumnNames="class_id"
+                                     referencedTableName="classroom"
+                                     referencedColumnNames="id"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="mohamed">
+        <createTable tableName="admin">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" foreignKeyName="fk_user_admin" referencedTableName="_user" referencedColumnNames="id"/>
+            </column>
+            <column name="registrationNumber" type="INT"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
