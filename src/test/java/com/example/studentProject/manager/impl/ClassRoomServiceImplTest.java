@@ -21,24 +21,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class ClassRoomServiceImplTest {
 
-//    @Container
-//    public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-//            .withDatabaseName("test_db")
-//            .withUsername("user")
-//            .withPassword("password");
-
     @Autowired
     private ClassRoomServiceImpl classRoomService;
 
     @Autowired
     private ClassroomRepository classroomRepository;
 
-//    @DynamicPropertySource
-//    static void properties(DynamicPropertyRegistry registry) {
-//        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-//        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-//        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-//    }
 
     @BeforeEach
     public void setUp() {
